@@ -1,6 +1,5 @@
 import { Protocol } from '@uniswap/router-sdk'
-import { V2SubgraphProvider, V3SubgraphProvider } from '@aperture_finance/uniswap-smart-order-router'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId, V2SubgraphProvider, V3SubgraphProvider } from '@aperture_finance/uniswap-smart-order-router'
 
 export const chainProtocols = [
   // V3.
@@ -46,9 +45,15 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V3SubgraphProvider(ChainId.BASE, 3, 90000),
   },
+  {
+    protocol: Protocol.V3,
+    chainId: ChainId.MANTA_PACIFIC_TESTNET,
+    timeout: 90000,
+    provider: new V3SubgraphProvider(ChainId.MANTA_PACIFIC_TESTNET, 3, 90000),
+  },
   // Currently there is no working V3 subgraph for Optimism so we use a static provider.
-  // V2.
 
+  // V2.
   {
     protocol: Protocol.V2,
     chainId: ChainId.MAINNET,
