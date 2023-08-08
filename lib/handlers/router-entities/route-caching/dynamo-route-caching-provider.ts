@@ -2,12 +2,13 @@ import {
   CachedRoute,
   CachedRoutes,
   CacheMode,
+  ChainId,
   IRouteCachingProvider,
   log,
   routeToString,
-} from '@uniswap/smart-order-router'
+} from '@aperture_finance/uniswap-smart-order-router'
 import { DynamoDB } from 'aws-sdk'
-import { ChainId, Currency, CurrencyAmount, Token, TradeType } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Token, TradeType } from '@uniswap/sdk-core'
 import { Protocol } from '@uniswap/router-sdk'
 import { CACHED_ROUTES_CONFIGURATION } from './cached-routes-configuration'
 import { PairTradeTypeChainId } from './model/pair-trade-type-chain-id'
@@ -15,7 +16,7 @@ import { CachedRoutesMarshaller } from '../../marshalling/cached-routes-marshall
 import { CachedRoutesStrategy } from './model/cached-routes-strategy'
 import { ProtocolsBucketBlockNumber } from './model/protocols-bucket-block-number'
 import { CachedRoutesBucket } from './model'
-import { MixedRoute, V2Route, V3Route } from '@uniswap/smart-order-router/build/main/routers'
+import { MixedRoute, V2Route, V3Route } from '@aperture_finance/uniswap-smart-order-router/build/main/routers'
 
 interface ConstructorParams {
   /**

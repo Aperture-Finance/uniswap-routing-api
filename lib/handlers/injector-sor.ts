@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@uniswap/sdk-core'
+import { Token } from '@uniswap/sdk-core'
 import {
   CachingGasStationProvider,
   CachingTokenListProvider,
@@ -30,7 +30,8 @@ import {
   V2QuoteProvider,
   V3PoolProvider,
   IRouteCachingProvider,
-} from '@uniswap/smart-order-router'
+  ChainId,
+} from '@aperture_finance/uniswap-smart-order-router'
 import { TokenList } from '@uniswap/token-lists'
 import { default as bunyan, default as Logger } from 'bunyan'
 import { ethers } from 'ethers'
@@ -61,6 +62,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.BNB,
   ChainId.AVALANCHE,
   ChainId.BASE,
+  ChainId.MANTA_PACIFIC_TESTNET,
 ]
 const DEFAULT_TOKEN_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
@@ -175,6 +177,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
         // 200*725k < 150m
         let quoteProvider: OnChainQuoteProvider | undefined = undefined
         switch (chainId) {
+          case ChainId.MANTA_PACIFIC_TESTNET:
           case ChainId.BASE:
           case ChainId.OPTIMISM:
             quoteProvider = new OnChainQuoteProvider(
