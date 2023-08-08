@@ -30,10 +30,10 @@ The best way to develop and test the API is to deploy your own instance to AWS.
    ```
    RoutingAPIStack.Url = https://...
    ```
-   We have a deployed stack with url https://vbcuqwld9d.execute-api.us-west-2.amazonaws.com/prod/.
+   We have a deployed stack with url https://vbcuqwld9d.execute-api.us-west-2.amazonaws.com/prod/. Our custom domain https://manta-routing.aperture.finance points to this stack.
    You can then try it out:
    ```
-   curl --request GET 'https://vbcuqwld9d.execute-api.us-west-2.amazonaws.com/prod/quote?tokenInAddress=0x39471bee1bbe79f3bfa774b6832d6a530eddac6b&tokenInChainId=3441005&tokenOutAddress=0x50508d7cb6bf4e1664ce62e7cceca96ca50b61c6&tokenOutChainId=3441005&amount=1000&type=exactIn'
+   curl --request GET 'https://manta-routing.aperture.finance/quote?tokenInAddress=0x39471bee1bbe79f3bfa774b6832d6a530eddac6b&tokenInChainId=3441005&tokenOutAddress=0x50508d7cb6bf4e1664ce62e7cceca96ca50b61c6&tokenOutChainId=3441005&amount=1000&type=exactIn'
    ```
 
 ### Integration Tests
