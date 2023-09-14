@@ -17,6 +17,7 @@ The best way to develop and test the API is to deploy your own instance to AWS.
    ```
    THROTTLE_PER_FIVE_MINS = '' # Optional
    JSON_RPC_PROVIDER_3441005 = https://manta-testnet.calderachain.xyz/http
+   JSON_RPC_PROVIDER_169=https://manta-pacific.calderachain.xyz/http
    ```
 3. Install and build the package
    ```

@@ -136,16 +136,24 @@ export class RoutingDashboardStack extends cdk.NestedStack {
         },
       },
       {
+        type: 'text',
+        width: 24,
+        height: 1,
+        properties: {
+          markdown: `# Latencies for Intent: Quote`,
+        },
+      },
+      {
         type: 'metric',
         width: 12,
-        height: 8,
+        height: 10,
         properties: {
           view: 'timeSeries',
           stacked: false,
           metrics: _.flatMap(chains, (chainId) => [
             [
               NAMESPACE,
-              `GET_QUOTE_LATENCY_CHAIN_${chainId}`,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_quote`,
               'Service',
               'RoutingAPI',
               { stat: 'p99.99', label: `${ID_TO_NETWORK_NAME(chainId)} P99.99` },
@@ -170,14 +178,14 @@ export class RoutingDashboardStack extends cdk.NestedStack {
       {
         type: 'metric',
         width: 12,
-        height: 8,
+        height: 10,
         properties: {
           view: 'timeSeries',
           stacked: false,
           metrics: _.flatMap(chains, (chainId) => [
             [
               NAMESPACE,
-              `GET_QUOTE_LATENCY_CHAIN_${chainId}`,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_quote`,
               'Service',
               'RoutingAPI',
               { stat: 'p95', label: `${ID_TO_NETWORK_NAME(chainId)} P95` },
@@ -201,14 +209,14 @@ export class RoutingDashboardStack extends cdk.NestedStack {
       {
         type: 'metric',
         width: 12,
-        height: 8,
+        height: 10,
         properties: {
           view: 'timeSeries',
           stacked: false,
           metrics: _.flatMap(chains, (chainId) => [
             [
               NAMESPACE,
-              `GET_QUOTE_LATENCY_CHAIN_${chainId}`,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_quote`,
               'Service',
               'RoutingAPI',
               { stat: 'p50', label: `${ID_TO_NETWORK_NAME(chainId)} Median` },
@@ -232,14 +240,146 @@ export class RoutingDashboardStack extends cdk.NestedStack {
       {
         type: 'metric',
         width: 12,
-        height: 8,
+        height: 10,
         properties: {
           view: 'timeSeries',
           stacked: false,
           metrics: _.flatMap(chains, (chainId) => [
             [
               NAMESPACE,
-              `GET_QUOTE_LATENCY_CHAIN_${chainId}`,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_quote`,
+              'Service',
+              'RoutingAPI',
+              { stat: 'Minimum', label: `${ID_TO_NETWORK_NAME(chainId)} Minimum` },
+            ],
+          ]),
+          region,
+          title: `Minimum Latency by Chain`,
+          period: 300,
+          setPeriodToTimeRange: true,
+          stat: 'SampleCount',
+          yAxis: {
+            left: {
+              min: 0,
+              showUnits: false,
+              label: 'Milliseconds',
+            },
+          },
+        },
+      },
+      {
+        type: 'text',
+        width: 24,
+        height: 1,
+        properties: {
+          markdown: `# Latencies for Intent: Caching`,
+        },
+      },
+      {
+        type: 'metric',
+        width: 12,
+        height: 10,
+        properties: {
+          view: 'timeSeries',
+          stacked: false,
+          metrics: _.flatMap(chains, (chainId) => [
+            [
+              NAMESPACE,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_caching`,
+              'Service',
+              'RoutingAPI',
+              { stat: 'p99.99', label: `${ID_TO_NETWORK_NAME(chainId)} P99.99` },
+            ],
+            ['...', { stat: 'p99.9', label: `${ID_TO_NETWORK_NAME(chainId)} P99.9` }],
+            ['...', { stat: 'p99', label: `${ID_TO_NETWORK_NAME(chainId)} P99` }],
+          ]),
+          region,
+          title: `P99.X Latency by Chain`,
+          period: 300,
+          setPeriodToTimeRange: true,
+          stat: 'SampleCount',
+          yAxis: {
+            left: {
+              min: 0,
+              showUnits: false,
+              label: 'Milliseconds',
+            },
+          },
+        },
+      },
+      {
+        type: 'metric',
+        width: 12,
+        height: 10,
+        properties: {
+          view: 'timeSeries',
+          stacked: false,
+          metrics: _.flatMap(chains, (chainId) => [
+            [
+              NAMESPACE,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_caching`,
+              'Service',
+              'RoutingAPI',
+              { stat: 'p95', label: `${ID_TO_NETWORK_NAME(chainId)} P95` },
+            ],
+            ['...', { stat: 'p90', label: `${ID_TO_NETWORK_NAME(chainId)} P90` }],
+          ]),
+          region,
+          title: `P95 & P90 Latency by Chain`,
+          period: 300,
+          setPeriodToTimeRange: true,
+          stat: 'SampleCount',
+          yAxis: {
+            left: {
+              min: 0,
+              showUnits: false,
+              label: 'Milliseconds',
+            },
+          },
+        },
+      },
+      {
+        type: 'metric',
+        width: 12,
+        height: 10,
+        properties: {
+          view: 'timeSeries',
+          stacked: false,
+          metrics: _.flatMap(chains, (chainId) => [
+            [
+              NAMESPACE,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_caching`,
+              'Service',
+              'RoutingAPI',
+              { stat: 'p50', label: `${ID_TO_NETWORK_NAME(chainId)} Median` },
+            ],
+            ['...', { stat: 'Average', label: `${ID_TO_NETWORK_NAME(chainId)} Average` }],
+          ]),
+          region,
+          title: `Average and Median Latency by Chain`,
+          period: 300,
+          setPeriodToTimeRange: true,
+          stat: 'SampleCount',
+          yAxis: {
+            left: {
+              min: 0,
+              showUnits: false,
+              label: 'Milliseconds',
+            },
+          },
+        },
+      },
+      {
+        type: 'metric',
+        width: 12,
+        height: 10,
+        properties: {
+          view: 'timeSeries',
+          stacked: false,
+          metrics: _.flatMap(chains, (chainId) => [
+            [
+              NAMESPACE,
+              `GET_QUOTE_LATENCY_CHAIN_${chainId}_INTENT_caching`,
               'Service',
               'RoutingAPI',
               { stat: 'Minimum', label: `${ID_TO_NETWORK_NAME(chainId)} Minimum` },
@@ -743,7 +883,7 @@ export class RoutingDashboardStack extends cdk.NestedStack {
                 ],
                 region: region,
                 title: 'Routing Lambda Provisioned Concurrency',
-                stat: 'Average',
+                stat: 'p99',
               },
             },
             {

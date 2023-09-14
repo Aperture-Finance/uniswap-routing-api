@@ -1906,6 +1906,7 @@ describe('quote', function () {
     [ChainId.BASE_GOERLI]: () => USDC_ON(ChainId.BASE_GOERLI),
     [ChainId.BASE]: () => USDC_ON(ChainId.BASE),
     [ChainId.MANTA_PACIFIC_TESTNET]: () => USDC_ON(ChainId.MANTA_PACIFIC_TESTNET),
+    [ChainId.MANTA_PACIFIC]: () => USDC_ON(ChainId.MANTA_PACIFIC),
   }
 
   const TEST_ERC20_2: { [chainId in ChainId]: () => Token | null } = {
@@ -1927,6 +1928,7 @@ describe('quote', function () {
     [ChainId.BASE_GOERLI]: () => WNATIVE_ON(ChainId.BASE_GOERLI),
     [ChainId.BASE]: () => WNATIVE_ON(ChainId.BASE),
     [ChainId.MANTA_PACIFIC_TESTNET]: () => WNATIVE_ON(ChainId.MANTA_PACIFIC_TESTNET),
+    [ChainId.MANTA_PACIFIC]: () => WNATIVE_ON(ChainId.MANTA_PACIFIC),
   }
 
   // TODO: Find valid pools/tokens on optimistic kovan and polygon mumbai. We skip those tests for now.
@@ -1937,9 +1939,7 @@ describe('quote', function () {
       c != ChainId.ARBITRUM_GOERLI &&
       c != ChainId.CELO_ALFAJORES &&
       c != ChainId.GOERLI &&
-      c != ChainId.SEPOLIA &&
-      c != ChainId.BASE &&
-      c != ChainId.BASE_GOERLI
+      c != ChainId.SEPOLIA
   )) {
     for (const type of ['exactIn', 'exactOut']) {
       const erc1 = TEST_ERC20_1[chain]()
@@ -1999,12 +1999,16 @@ describe('quote', function () {
         })
         const native = NATIVE_CURRENCY[chain]
         it(`${native} -> erc20`, async () => {
+          // TODO ROUTE-64: Remove this once smart-order-router supports ETH native currency on BASE
+          // see https://uniswapteam.slack.com/archives/C021SU4PMR7/p1691593679108459?thread_ts=1691532336.742419&cid=C021SU4PMR7
+          const baseErc20 = chain == ChainId.BASE ? USDC_ON(ChainId.BASE) : erc2
+
           const quoteReq: QuoteQueryParams = {
             tokenInAddress: native,
             tokenInChainId: chain,
-            tokenOutAddress: erc2.address,
+            tokenOutAddress: baseErc20.address,
             tokenOutChainId: chain,
-            amount: await getAmountFromToken(type, WNATIVE_ON(chain), erc2, '1'),
+            amount: await getAmountFromToken(type, WNATIVE_ON(chain), baseErc20, '1'),
             type,
             enableUniversalRouter: true,
           }

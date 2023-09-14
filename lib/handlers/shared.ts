@@ -7,8 +7,13 @@ import {
   MapWithLowerCaseKey,
   NATIVE_NAMES_BY_ID,
   nativeOnChain,
+  ProtocolPoolSelection,
 } from '@aperture_finance/uniswap-smart-order-router'
 import Logger from 'bunyan'
+
+export const SECONDS_PER_BLOCK_BY_CHAIN_ID: { [chainId in ChainId]?: number } = {
+  [ChainId.MAINNET]: 30,
+}
 
 export const DEFAULT_ROUTING_CONFIG_BY_CHAIN = (chainId: ChainId): AlphaRouterConfig => {
   switch (chainId) {
@@ -93,6 +98,70 @@ export const DEFAULT_ROUTING_CONFIG_BY_CHAIN = (chainId: ChainId): AlphaRouterCo
         forceCrossProtocol: false,
       }
   }
+}
+
+export type QuoteSpeedConfig = {
+  v2PoolSelection?: ProtocolPoolSelection
+  v3PoolSelection?: ProtocolPoolSelection
+  maxSwapsPerPath?: number
+  maxSplits?: number
+  distributionPercent?: number
+  writeToCachedRoutes?: boolean
+}
+
+export const QUOTE_SPEED_CONFIG: { [key: string]: QuoteSpeedConfig } = {
+  standard: {},
+  fast: {
+    v2PoolSelection: {
+      topN: 1,
+      topNDirectSwaps: 1,
+      topNTokenInOut: 1,
+      topNSecondHop: 0,
+      topNWithEachBaseToken: 1,
+      topNWithBaseToken: 1,
+    },
+    v3PoolSelection: {
+      topN: 1,
+      topNDirectSwaps: 1,
+      topNTokenInOut: 1,
+      topNSecondHop: 0,
+      topNWithEachBaseToken: 1,
+      topNWithBaseToken: 1,
+    },
+    maxSwapsPerPath: 2,
+    maxSplits: 1,
+    distributionPercent: 100,
+    writeToCachedRoutes: false,
+  },
+}
+
+export type IntentSpecificConfig = {
+  useCachedRoutes?: boolean
+  optimisticCachedRoutes?: boolean
+}
+
+export const INTENT_SPECIFIC_CONFIG: { [key: string]: IntentSpecificConfig } = {
+  caching: {
+    // When the intent is to create a cache entry, we should not use the cache
+    useCachedRoutes: false,
+    // This is *super* important to avoid an infinite loop of caching quotes calling themselves
+    optimisticCachedRoutes: false,
+  },
+  quote: {
+    // When the intent is to get a quote, we should use the cache and optimistic cached routes
+    useCachedRoutes: true,
+    optimisticCachedRoutes: true,
+  },
+  swap: {
+    // When the intent is to prepare the swap, we can use cache, but it should not be optimistic
+    useCachedRoutes: true,
+    optimisticCachedRoutes: false,
+  },
+  pricing: {
+    // When the intent is to get pricing, we should use the cache and optimistic cached routes
+    useCachedRoutes: true,
+    optimisticCachedRoutes: true,
+  },
 }
 
 export async function tokenStringToCurrency(

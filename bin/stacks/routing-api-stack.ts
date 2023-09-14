@@ -39,6 +39,7 @@ export class RoutingAPIStack extends cdk.Stack {
       tenderlyUser: string
       tenderlyProject: string
       tenderlyAccessKey: string
+      unicornSecret: string
     }
   ) {
     super(parent, name, props)
@@ -58,6 +59,7 @@ export class RoutingAPIStack extends cdk.Stack {
       tenderlyUser,
       tenderlyProject,
       tenderlyAccessKey,
+      unicornSecret,
     } = props
 
     const {
@@ -76,7 +78,15 @@ export class RoutingAPIStack extends cdk.Stack {
       hosted_zone,
     })
 
-    const { cachedRoutesDynamoDb, cachedV3PoolsDynamoDb } = new RoutingDatabaseStack(this, 'RoutingDatabaseStack', {})
+    const {
+      routesDynamoDb,
+      routesDbCachingRequestFlagDynamoDb,
+      cachedRoutesDynamoDb,
+      cachingRequestFlagDynamoDb,
+      cachedV3PoolsDynamoDb,
+      cachedV2PairsDynamoDb,
+      tokenPropertiesCachingDynamoDb,
+    } = new RoutingDatabaseStack(this, 'RoutingDatabaseStack', {})
 
     const { routingLambda, routingLambdaAlias } = new RoutingLambdaStack(this, 'RoutingLambdaStack', {
       poolCacheBucket,
@@ -90,8 +100,14 @@ export class RoutingAPIStack extends cdk.Stack {
       tenderlyUser,
       tenderlyProject,
       tenderlyAccessKey,
+      routesDynamoDb,
+      routesDbCachingRequestFlagDynamoDb,
       cachedRoutesDynamoDb,
+      cachingRequestFlagDynamoDb,
       cachedV3PoolsDynamoDb,
+      cachedV2PairsDynamoDb,
+      tokenPropertiesCachingDynamoDb,
+      unicornSecret,
     })
 
     const accessLogGroup = new aws_logs.LogGroup(this, 'RoutingAPIGAccessLogs')

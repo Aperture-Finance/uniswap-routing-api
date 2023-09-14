@@ -60,6 +60,7 @@ export const QuoteResponseSchemaJoi = Joi.object().keys({
     value: Joi.string().required(),
     to: Joi.string().required(),
   }).optional(),
+  hitsCachedRoutes: Joi.boolean().optional(),
 })
 
 export type QuoteResponse = {
@@ -81,4 +82,5 @@ export type QuoteResponse = {
   route: Array<(V3PoolInRoute | V2PoolInRoute)[]>
   routeString: string
   methodParameters?: MethodParameters
+  hitsCachedRoutes?: boolean
 }
