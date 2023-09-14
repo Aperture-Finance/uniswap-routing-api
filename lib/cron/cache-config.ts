@@ -53,6 +53,12 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V3SubgraphProvider(ChainId.MANTA_PACIFIC_TESTNET, 3, 90000),
   },
+  {
+    protocol: Protocol.V3,
+    chainId: ChainId.MANTA_PACIFIC,
+    timeout: 90000,
+    provider: new V3SubgraphProvider(ChainId.MANTA_PACIFIC, 3, 90000),
+  },
   // Currently there is no working V3 subgraph for Optimism so we use a static provider.
 
   // V2.

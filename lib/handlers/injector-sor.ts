@@ -69,6 +69,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.AVALANCHE,
   ChainId.BASE,
   ChainId.MANTA_PACIFIC_TESTNET,
+  ChainId.MANTA_PACIFIC,
 ]
 const DEFAULT_TOKEN_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
@@ -260,6 +261,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           let quoteProvider: OnChainQuoteProvider | undefined = undefined
           switch (chainId) {
             case ChainId.MANTA_PACIFIC_TESTNET:
+            case ChainId.MANTA_PACIFIC:
             case ChainId.BASE:
             case ChainId.OPTIMISM:
               quoteProvider = new OnChainQuoteProvider(
