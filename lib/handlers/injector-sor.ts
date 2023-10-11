@@ -274,17 +274,17 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                   maxTimeout: 1000,
                 },
                 {
-                  multicallChunk: 110,
+                  multicallChunk: 24,
                   gasLimitPerCall: 1_200_000,
                   quoteMinSuccessRate: 0.1,
                 },
                 {
-                  gasLimitOverride: 3_000_000,
-                  multicallChunk: 45,
+                  gasLimitOverride: 1_000_000,
+                  multicallChunk: 24,
                 },
                 {
-                  gasLimitOverride: 3_000_000,
-                  multicallChunk: 45,
+                  gasLimitOverride: 1_000_000,
+                  multicallChunk: 24,
                 },
                 {
                   baseBlockOffset: -25,
